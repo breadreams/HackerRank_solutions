@@ -48,29 +48,31 @@ package breadream.codility.l5_PrefixSums.MinAvgTwoSlice
   * each element of array A is an integer within the range [−10,000..10,000].
   */
 object Solution {
-  def solution(A: Array[Int]): Int = {
-
-    A.sliding(2, 1)
-    A.sliding(3, 1)
-    A.sliding(4, 1)
-
-
-    println(s"A=[${A.toList.mkString(",")}]")
-    // A value range [−10,000..10,000]
-    // N range [2..100,000]
-    val N = A.length
-
-    val SUM = Array.fill[Int](N + 1){0}
-    for (i <- 1 to N) {
-      SUM(i) = SUM(i - 1) + A(i - 1)
+  def solution(a: Array[Int]): Int = {
+    val iterator = a.sliding(2, 1).zipWithIndex ++ a.sliding(3, 1).zipWithIndex
+    val (_, minIndex) = iterator.foldLeft((Double.MaxValue, 0)) {
+      case ((_minAvg, _minIndex), (_subArray, _cIndex) ) =>
+        val _cAvg = _subArray.sum / _subArray.length.toDouble
+        if (_minAvg > _cAvg) {
+          (_cAvg, _cIndex)
+        } else {
+          (_minAvg, _minIndex)
+        }
     }
-    println(s"SUM=[${SUM.toList.mkString(",")}]")
-
-    0
+    minIndex
   }
 
   def main(args: Array[String]): Unit = {
-    println(solution(Array(4,2,2,5,1,5,8)))
+//    println(solution(Array(4,2,2,5,1,5,8)))
+//    println(solution(Array(4,2,2,5,1,5,2,2,8)))
+//    println(solution(Array(4,2,2,5,1,5,2,2,8,1,2)))
+    println(solution(Array(-3, -5, -8, -4, -10)))
+
+//    println(List(-8, -4, -10).sum / 3)
+//    println(List(-8, -4).sum / 3)
+//    println(List(-4, -10).sum / 3)
+
+
   }
 }
 

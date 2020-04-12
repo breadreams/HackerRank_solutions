@@ -19,6 +19,18 @@ object Note extends App {
 
   val tempArr = Array.fill(n){0}
 
+  val stack = new scala.collection.mutable.Stack[Int]
+  stack.push(1)
+  stack.push(2)
+  println(stack.pop)
+  => 2
+
+  val queue = new scala.collection.mutable.Queue[String]
+  queue += "a"
+  queue ++= List("b", "c")
+  println(queue.dequeue)
+  => a
+
   */
 
   val aaa =  Array(1,2,3)
