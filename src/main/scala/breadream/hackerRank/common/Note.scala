@@ -44,4 +44,8 @@ object Note extends App {
 
   val a = Array[Int]()
   println(s"A=[${a.mkString(",")}]")
+
+//  5 5 5 5
+//  1 2 3 4
+//  6 6 6 6
 }
