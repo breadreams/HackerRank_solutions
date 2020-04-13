@@ -31,10 +31,17 @@ object Note extends App {
   println(queue.dequeue)
   => a
 
-  */
+
+  a.groupBy(identity).mapValues(_.length)
 
   val aaa =  Array(1,2,3)
   //aaa.map(_ => 3)
   aaa.indices.foreach(aaa(_) = 3)
   println(aaa.toList)
+
+
+  */
+
+  val a = Array[Int]()
+  println(s"A=[${a.mkString(",")}]")
 }
