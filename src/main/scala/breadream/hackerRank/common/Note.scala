@@ -48,4 +48,11 @@ object Note extends App {
 //  5 5 5 5
 //  1 2 3 4
 //  6 6 6 6
+
+  def factorPairIter(n: Int): Iterator[(Int, Int)] = {
+    Iterator.from(1).
+      takeWhile(i => i.toLong * i <= n.toLong).
+      filter(i => n % i == 0).
+      map(i => (i, n / i))
+  }
 }
