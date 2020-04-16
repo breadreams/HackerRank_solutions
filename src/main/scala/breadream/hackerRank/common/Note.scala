@@ -40,6 +40,23 @@ object Note extends App {
   println(aaa.toList)
 
 
+  val fibs: Stream[Int] = 0 #:: fibs.scanLeft(1)(_ + _)
+  val fibo = fibs.takeWhile(_ <= a.length + 1).toList.reverse
+
+  def fibs(a: Int = 0, b: Int = 1): Stream[Int] = Stream.cons(a, fibs(b, a + b))
+  def fibs(a: Int = 1, b: Int = 2): Stream[Int] = Stream.cons(a, fibs(b, a + b))
+
+  def fibonacci(n: Int): Array[Int] = {
+    val result = new Array[Int](n + 1)
+    result(0) = 1;
+    result(1) = 1
+    for (i <- 2 to n) {
+      result(i) = (result(i-1) + result(i-2)) % (1<<30)
+    }
+    result
+  }
+
+
   */
 
   val a = Array[Int]()

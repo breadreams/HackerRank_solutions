@@ -29,6 +29,14 @@ object Factor extends App {
       map(i => (i, n / i))
   }
 
+  def isPrime(x: Int): Boolean = {
+    !(2 until x - 1).exists(y => x % y == 0) && x > 1
+  }
+
+  // if x >= y
+  def getGCD(x: Int, y: Int): Int = {
+    if (y == 0) x else getGCD(y, x % y)
+  }
 
   def rangePrime(n: Int): Seq[Int] = {
     (1 to n).filter(x => !(2 until x - 1).exists(y => x % y == 0) && x > 1)
@@ -52,7 +60,6 @@ object Factor extends App {
 
   println(rangePrime(26))
   println(rangeSemiPrime(26))
-
 
 
   //  def foo(x: Int, a: Int): List[Int] = {
