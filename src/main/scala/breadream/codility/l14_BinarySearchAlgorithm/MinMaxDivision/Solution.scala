@@ -15,26 +15,40 @@ package breadream.codility.l14_BinarySearchAlgorithm.MinMaxDivision
   *
   * The size of the block is any integer between 0 and N. Every element of the array should belong to some block.
   *
-  *
-  *
-  *
-  *
-  *
-  *
-  *
-  *
-  *
   */
 object Solution extends App {
 
-  def solution(k: Int, m: Int, a: Array[Int]): Int = {
-
-
-
-    0
+  def check(mid: Int, k: Int, a: Array[Int]): Boolean = {
+    var block = k
+    var tempSum = 0
+    a.foreach { e =>
+      tempSum += e
+      if (tempSum > mid) {
+        block -= 1
+        tempSum = e
+      }
+      if (block == 0) return false
+    }
+    true
   }
 
-  println(solution(10, 10, Array()))
+  def solution(k: Int, m: Int, a: Array[Int]): Int = {
+    var (min, max) = (a.max, a.sum)
+    var result = 0
+    while (min <= max) {
+      val mid = (max + min) / 2
+      if (check(mid, k, a)) {
+        result = mid
+        max = mid - 1
+      } else {
+        min = mid + 1
+      }
+    }
+    result
+  }
+
+  println(solution(3, 5, Array(2, 1, 5, 1, 2, 2, 2)))
+  println(solution(2, 5, Array(5, 3)))
 }
 
 

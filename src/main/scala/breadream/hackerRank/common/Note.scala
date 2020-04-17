@@ -3,6 +3,7 @@ package breadream.hackerRank.common
 object Note extends App {
 
   import scala.util.control.Breaks._
+
   breakable {
   }
 
@@ -62,14 +63,22 @@ object Note extends App {
   val a = Array[Int]()
   println(s"A=[${a.mkString(",")}]")
 
-//  5 5 5 5
-//  1 2 3 4
-//  6 6 6 6
+  //  5 5 5 5
+  //  1 2 3 4
+  //  6 6 6 6
 
   def factorPairIter(n: Int): Iterator[(Int, Int)] = {
     Iterator.from(1).
       takeWhile(i => i.toLong * i <= n.toLong).
       filter(i => n % i == 0).
       map(i => (i, n / i))
+  }
+
+  def minMaxSumAvg(a: Array[Int]): (Int, Int, Int, Double) = {
+    if (a.isEmpty) throw new java.lang.UnsupportedOperationException("array is empty")
+    val (min, max, sum) = a.foldLeft((a(0), a(0), 0)) {
+      case ((_min, _max, _sum), e) => (math.min(_min, e), math.max(_max, e), _sum + e)
+    }
+    (min, max, sum, sum / a.length.toDouble)
   }
 }
