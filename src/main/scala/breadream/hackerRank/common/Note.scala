@@ -31,6 +31,15 @@ object Note extends App {
 
     // create array to count map
     val countMap = Array(1,2,3,4,5).groupBy(identity).mapValues(_.length)
+
+    // intersect 교집합
+    Array(1,2,3).intersect(Array(2,3)) // Array(2,3)
+
+    // union 합집합
+    Array(1,2,3).union(Array(2,3)) // Array(1,2,3,2,3)
+
+    // 차집합
+    Array(1,2,3).diff(Array(2,3)) // Array(1)
   }
 
   /**
@@ -205,6 +214,92 @@ object Note extends App {
       takeWhile(i => i.toLong * i <= n.toLong).
       filter(i => n % i == 0).
       map(i => (i, n / i))
+  }
+
+  /**
+    * 최대 공약수
+    * if x > y
+    */
+  def gcd(x: Int, y: Int): Int = {
+    if (y == 0) x else gcd(y, x % y)
+  }
+
+  /**
+    * 소수 check
+    */
+  def isPrime(x: Int): Boolean = {
+    !(2 until x - 1).exists(y => x % y == 0) && x > 1
+  }
+
+  /**
+    * Range 소수
+    */
+  def rangePrime(n: Int): Seq[Int] = {
+    (1 to n).filter(x => !(2 until x - 1).exists(y => x % y == 0) && x > 1)
+  }
+
+  /**
+    * Range Semi 소수
+    * Semi 소수 = 소수 * 소수
+    */
+  def rangeSemiPrime(n: Int): Seq[Int] = {
+    val primes = (1 to n / 2).filter(x => !(2 until x - 1).exists(y => x % y == 0) && x > 1)
+    var _temp = scala.collection.mutable.SortedSet[Int]()
+    primes.view.zipWithIndex.foreach {
+      case (x, i) =>
+        _temp ++= primes.drop(i).iterator.takeWhile(y => x * y <= n).map(y => x * y)
+    }
+    _temp.toSeq
+  }
+
+  /**
+    * 이진 탐색 알고리즘 샘풀
+    *
+    * https://app.codility.com/programmers/lessons/14-binary_search_algorithm/min_max_division/
+    */
+  def binarySearchExample(): Unit = {
+
+    def check(mid: Int, k: Int, a: Array[Int]): Boolean = {
+      var block = k
+      var tempSum = 0
+      a.foreach { e =>
+        tempSum += e
+        if (tempSum > mid) {
+          block -= 1
+          tempSum = e
+        }
+        if (block == 0) return false
+      }
+      true
+    }
+
+    /**
+      * 1. Array a 를 K개 로 나눈다.(경우의수)
+      * 2. 나눈 sub array들 중 sum 값이 가장 큰 값을 추출한다.
+      * 3. 1번의 경우의 수들중에 2번이 가장 작은 값을 찾아라
+      *
+      * k = 3, m = 5
+      * a = [2,1,5,1,2,2,2]
+      *
+      * - [2, 1, 5, 1, 2, 2, 2], [], [] with a large sum of 15;
+      * - [2], [1, 5, 1, 2], [2, 2] with a large sum of 9;
+      * - [2, 1, 5], [], [1, 2, 2, 2] with a large sum of 8;
+      * - [2, 1], [5, 1], [2, 2, 2] with a large sum of 6. <- return
+      */
+    def solution(k: Int, m: Int, a: Array[Int]): Int = {
+      var (min, max) = (a.max, a.sum)
+      var result = 0
+      while (min <= max) {
+        val mid = (max + min) / 2
+        if (check(mid, k, a)) {
+          result = mid
+          max = mid - 1
+        } else {
+          min = mid + 1
+        }
+      }
+      result
+    }
   }
 
 
