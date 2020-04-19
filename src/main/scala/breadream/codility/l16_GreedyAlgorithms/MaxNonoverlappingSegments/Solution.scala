@@ -27,11 +27,6 @@ package breadream.codility.l16_GreedyAlgorithms.MaxNonoverlappingSegments
   * There is no non-overlapping set with four segments.
   *
   * Write a function:
-  *
-  *
-  *
-  *
-  *
   */
 object Solution extends App {
 
