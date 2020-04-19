@@ -9,18 +9,15 @@ object Solution extends App {
 
   def solution(a: Array[Int]): Int = {
     if (a.isEmpty) return 0
+    var maxEarning = 0
     var minPrice = a(0)
-    var global = 0
-    var local = 0
     for (i <- a.indices.drop(1)) {
-      local = a(i) - minPrice
-      if (a(i) < minPrice) {
-        minPrice = a(i)
-      }
-      global = math.max(local, global)
+      val earning = a(i) - minPrice
+      minPrice = math.min(a(i), minPrice)
+      maxEarning = math.max(earning, maxEarning)
     }
-    if (global < 0) return 0
-    global
+    if (maxEarning < 0) return 0
+    maxEarning
   }
 
   println(solution(Array(23171, 21011, 21123, 21366, 21013, 21367)))

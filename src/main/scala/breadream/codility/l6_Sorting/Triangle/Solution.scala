@@ -9,6 +9,7 @@ package breadream.codility.l6_Sorting.Triangle
   * A[R] + A[P] > A[Q].
   */
 object Solution extends App {
+
   def solution(a: Array[Int]): Int = {
     // N is an integer within the range [0..100,000];
     // each element of array A is an integer within the range [−2,147,483,648..2,147,483,647].
@@ -68,7 +69,7 @@ object Solution extends App {
         breakable {
           while (z < n) {
             if (!(a(x) + a(y) > a(z))) break
-            //            println(s"x[$x],y[$y],z[$z]")
+            //println(s"x[$x],y[$y],z[$z]")
             z += 1
           }
         }
