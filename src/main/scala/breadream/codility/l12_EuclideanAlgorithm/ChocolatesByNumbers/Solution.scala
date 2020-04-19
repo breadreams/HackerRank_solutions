@@ -21,7 +21,7 @@ object Solution extends App {
     val factorM = factor(m)
     val commonFactor = factorN.intersect(factorM)
     n / commonFactor.max
-  } 
+  }
 
   println(solution(10, 4)) // 5
   println(solution(15, 3)) // 5
