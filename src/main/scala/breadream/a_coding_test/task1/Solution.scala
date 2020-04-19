@@ -9,7 +9,7 @@ package breadream.a_coding_test.task1
   *
   */
 object Solution extends App {
-  
+
   def solution(a: Array[Int]): Int = {
     0
   }
