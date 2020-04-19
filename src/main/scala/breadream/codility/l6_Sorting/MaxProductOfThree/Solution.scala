@@ -5,7 +5,7 @@ package breadream.codility.l6_Sorting.MaxProductOfThree
   *
   * Maximize A[P] * A[Q] * A[R] for any triplet (P, Q, R).
   *
-  *
+  * Array A 를 세개의 원소를 곱했을때, 가장큰 수를 구하라
   *
   *
   */

@@ -5,32 +5,25 @@ package breadream.codility.l4_CountingElements.MaxCounters
   *
   * Calculate the values of counters after applying all alternating operations: increase counter by 1; set value of all counters to current maximum.
   */
-object Solution {
+object Solution extends App {
 
   def solution(n: Int, a: Array[Int]): Array[Int] = {
-    // write your code in Scala 2.12
-    val temp = Array.fill(n){0}
+    val counter = Array.fill(n) {0}
     var max = 0
-    var tempMax = 0
-    a.foreach { e =>
-      if (e == n + 1) {
-        tempMax = max
+    var lastMax = 0
+    a.foreach { x =>
+      if (x == n + 1) {
+        lastMax = max
       } else {
-        if (tempMax > temp(e - 1)) {
-          temp(e - 1) = tempMax + 1
-        } else {
-          temp(e - 1) += 1
+        if (counter(x - 1) < lastMax) {
+          counter(x - 1) = lastMax
         }
-        max = math.max(max, temp(e - 1))
+        counter(x - 1) += 1
+        max = math.max(counter(x - 1), max)
       }
     }
-    temp.indices.foreach(i => if (temp(i) < tempMax) temp(i) = tempMax)
-    temp
+    counter.map(math.max(lastMax, _))
   }
 
-  def main(args: Array[String]): Unit = {
-    println(solution(5, Array(
-      3, 4, 4, 6, 1, 4, 4
-    )).toList) // [3, 2, 2, 4, 2]
-  }
+  println(solution(5, Array(3, 4, 4, 6, 1, 4, 4)).toList) // [3, 2, 2, 4, 2]
 }

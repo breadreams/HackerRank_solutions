@@ -46,8 +46,8 @@ object Solution {
   }
 
   def main(args: Array[String]): Unit = {
-//    println(solution(Array(1,5,2,1,4,0)))
-//    println(solution(Array(1, 1, 1)))
+    println(solution(Array(1, 5, 2, 1, 4, 0)))
+    println(solution(Array(1, 1, 1)))
     println(solution(Array(1, 2147483647, 0)))
   }
 }

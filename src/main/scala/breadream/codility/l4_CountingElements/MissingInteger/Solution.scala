@@ -24,11 +24,21 @@ package breadream.codility.l4_CountingElements.MissingInteger
   * N is an integer within the range [1..100,000];
   * each element of array A is an integer within the range [−1,000,000..1,000,000].
   */
-object Solution {
+object Solution extends App {
 
+  def solution2(a: Array[Int]): Int = {
+    val buffer = scala.collection.mutable.SortedSet.empty[Int]
+    a.iterator.filter(_ > 0).foreach(buffer.add)
+    if (buffer.isEmpty || buffer.head != 1) return 1
+
+    buffer.iterator.zipWithIndex.foreach {
+      case (v, i) if v != i + 1 => return i + 1
+      case _ => ()
+    }
+    1
+  }
 
   def solution(a: Array[Int]): Int = {
-    // write your code in Scala 2.12
     import scala.util.control.Breaks._
 
     val b = a.filter(_ >= 0).sorted
@@ -46,11 +56,12 @@ object Solution {
     result
   }
 
-  def main(args: Array[String]): Unit = {
-    println(solution(Array(1, 3, 6, 4, 1, 2))) // 5
+  println(solution(Array(1, 3, 6, 4, 1, 2))) // 5
+  println(solution(Array(1, 2, 3))) // 4
+  println(solution(Array(-1, -3))) // 1
 
-    println(solution(Array(1, 2, 3))) // 4
-//
-    println(solution(Array(-1, -3))) // 1
-  }
+  println
+  println(solution2(Array(1, 3, 6, 4, 1, 2))) // 5
+  println(solution2(Array(1, 2, 3))) // 4
+  println(solution2(Array(-1, -3))) // 1
 }

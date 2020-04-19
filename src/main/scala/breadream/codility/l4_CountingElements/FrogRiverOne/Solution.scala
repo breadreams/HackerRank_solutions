@@ -48,29 +48,30 @@ package breadream.codility.l4_CountingElements.FrogRiverOne
   * N and X are integers within the range [1..100,000];
   * each element of array A is an integer within the range [1..X].
   *
+  * 개구리가 (현위치) 0 -> X+1 (강건너) 로 넘어가려고 한다.
+  * Array A에는 나뭇잎이 도착하는 시간을 나타낸다. 모두 채워지면 개구리는 넘어갈수 있다.
+  * 즉, A[0] ~ A[X] 까지 다 체워지는 시간을 구하는 문제
+  *
+  *
   */
-object Solution {
+object Solution extends App {
 
   def solution(x: Int, a: Array[Int]): Int = {
-    // write your code in Scala 2.12
-    val temp = Array.fill(x + 1){0L}
+    val temp = Array.fill(x + 1) {
+      0L
+    }
     var count = 0
     var result = -1
-    import scala.util.control.Breaks._
-    breakable {
-      for ((e, i) <- a.zipWithIndex) {
-        if (temp(e) == 0) count += 1
-        temp(e) += 1
-        if (count == x) {
-          result = i
-          break
-        }
+    for ((e, i) <- a.zipWithIndex) {
+      if (temp(e) == 0) count += 1
+      temp(e) += 1
+      if (count == x) {
+        result = i
+        return result
       }
     }
     result
   }
 
-  def main(args: Array[String]): Unit = {
-    println(solution(5, Array(1, 3, 1, 4, 2, 3, 5, 4))) // 6
-  }
+  println(solution(5, Array(1, 3, 1, 4, 2, 3, 5, 4))) // 6
 }

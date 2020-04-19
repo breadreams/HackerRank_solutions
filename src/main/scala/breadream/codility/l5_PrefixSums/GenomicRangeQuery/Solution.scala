@@ -42,7 +42,7 @@ package breadream.codility.l5_PrefixSums.GenomicRangeQuery
   * P[K] ≤ Q[K], where 0 ≤ K < M;
   * string S consists only of upper-case English letters A, C, G, T.
   */
-object Solution {
+object Solution extends App {
 
   def solution(S: String, P: Array[Int], Q: Array[Int]): Array[Int] = {
     val N = S.length
@@ -129,13 +129,7 @@ object Solution {
   }
 
 
-
-
-  def main(args: Array[String]): Unit = {
-    println(solution("CAGCCTA", Array(2,5,0), Array(4,5,6)).toList) // 2, 4, 1
-//    println(solution("CAGCCTA", Array(2), Array(4)).toList)
-//    println(solution("CAGCCTA", Array(0), Array(0)).toList)
-  }
-
-
+  println(solution("CAGCCTA", Array(2,5,0), Array(4,5,6)).toList) // 2, 4, 1
+//  println(solution("CAGCCTA", Array(2), Array(4)).toList)
+//  println(solution("CAGCCTA", Array(0), Array(0)).toList)
 }

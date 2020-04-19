@@ -1,7 +1,5 @@
 package breadream.codility.l14_BinarySearchAlgorithm.NailingPlanks
 
-import scala.collection.mutable.SortedSet
-
 /**
   * NailingPlanks
   *
@@ -39,19 +37,17 @@ import scala.collection.mutable.SortedSet
   *
   *
   */
-object Solution extends App {
+object Solution2 extends App {
 
   import scala.collection.mutable
 
-  def isAllNailed(mid: Int, set: mutable.HashSet[(Int, Int)], c: Array[Int]): Boolean = {
-    //println(s"mid=[$mid]")
-    val buffer = set.clone
+  def isAllNailed(mid: Int, a: Array[Int], b: Array[Int], c: Array[Int]): Boolean = {
+    println(s"mid=[$mid]")
+    var buffer = a.iterator.zip(b.iterator)
     c.slice(0, mid + 1).foreach { nail =>
-      val hits = buffer.filter {
-        case (start, end) =>
-          start <= nail && nail <= end
+      buffer = buffer.filterNot {
+        case (start, end) => start <= nail && nail <= end
       }
-      hits.foreach(buffer.remove)
       if (buffer.isEmpty){
         //println(s"mid($mid) success")
         return true
@@ -62,16 +58,11 @@ object Solution extends App {
   }
 
   def solution(a: Array[Int], b: Array[Int], c: Array[Int]): Int = {
-    val buffer = mutable.HashSet.empty[(Int, Int)]
-    a.indices.foreach { i =>
-      buffer.add(a(i), b(i))
-    }
-    //println(buffer)
     var (min, max) = (0, c.length - 1)
     var result = -1
     while (min <= max) {
       val mid = (min + max) / 2
-      if (isAllNailed(mid, buffer, c)) {
+      if (isAllNailed(mid, a, b, c)) {
         result = mid
         //println(s"gogo to down ${(min, max)} -> ${(min, mid - 1)}")
         max = mid - 1
@@ -84,21 +75,50 @@ object Solution extends App {
   }
 
   def solution2(a: Array[Int], b: Array[Int], c: Array[Int]): Int = {
-    val buffer = scala.collection.mutable.HashSet.empty[(Int, Int)]
-    a.indices.foreach { i =>
-      buffer.add(a(i), b(i))
-    }
-    //println(buffer)
+    var buffer = a.iterator.zip(b.iterator).toSet
     var count = 0
     c.iterator.takeWhile(_ => buffer.nonEmpty).foreach { nail =>
-      val hits = buffer.filter {
-        case (start, end) => start <= nail && nail <= end
-      }
-      buffer --= hits
-      //hits.foreach(buffer.remove)
+      buffer = buffer.filterNot { case (s, e) => s <= nail && nail <= e }
       count += 1
     }
     if (buffer.nonEmpty) -1 else count
+  }
+
+  def solution3(a: Array[Int], b: Array[Int], c: Array[Int]): Int = {
+    var beg = 1 // minimum one nail
+    var end = c.length // can't be bigger than all nails count..
+    var result = -1
+    while (beg <= end) {
+      val mid = (beg + end) / 2
+      if (check(a, b, c, mid)) { // if it is a solution
+        end = mid - 1
+        result = mid
+      } else {
+        beg = mid + 1
+      }
+    }
+    result
+  }
+
+  def check(a: Array[Int], b: Array[Int], c: Array[Int], nailsCount: Int): Boolean = {
+    println(s"mid=[${nailsCount}]")
+    val nails = Array.ofDim[Int](2 * c.length + 1) // prefix sum of nails
+    //println(nails.toList)
+    for (i <- 0 until nailsCount)
+      nails(c(i)) = 1
+
+    println(nails.toList)
+
+    for (i <- nails.indices.tail)
+      nails(i) += nails(i - 1)
+
+    println(nails.toList)
+
+    var allNailed = true
+    for (i <- a.indices if allNailed) {
+      allNailed = nails(b(i)) - nails(a(i) - 1) > 0
+    }
+    allNailed
   }
 
   //println(solution(Array(1, 4, 5, 8), Array(4, 5, 9, 10), Array(4, 6, 7, 10, 2)))
@@ -107,21 +127,23 @@ object Solution extends App {
   //println(solution2(Array(1, 4, 5, 8), Array(4, 5, 9, 10), Array(4, 6, 7, 10, 2)))
   //println(solution2(Array(1), Array(1), Array(2)))
 
+  println(solution3(Array(1, 4, 5, 8), Array(4, 5, 9, 10), Array(4, 6, 7, 10, 2)))
 
+  /*
   import breadream.hackerRank.common.Random.between
 
 //  val M = 30000
 //  val N = 100
   val M = 30000
-  val N = 100
+  val N = 30000
 
   val _a = Array.fill(N){0}
   val _b = Array.fill(N){0}
   val _c = Array.fill(N){0}
 
   (0 until N).foreach { i =>
-    _a(i) = between(1, 2 * M - M)
-    _b(i) = between(_a(i) + M, 2 * M)
+    _a(i) = between(1, 2 * M)
+    _b(i) = between(_a(i), 2 * M)
     _c(i) = between(1, 2 * M)
   }
 
@@ -129,11 +151,10 @@ object Solution extends App {
   //println(_b.toList)
   //println(_c.toList)
 
-  println(solution2(_a, _b, _c))
-  println(solution(_a, _b, _c))
-
-
-
+//  println(solution(_a, _b, _c))
+//  println(solution2(_a, _b, _c))
+  println(solution3(_a, _b, _c))
+  */
 }
 
 

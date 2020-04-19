@@ -43,10 +43,48 @@ package breadream.codility.l5_PrefixSums.PassingCars
   *
   * N is an integer within the range [1..100,000];
   * each element of array A is an integer that can have one of the following values: 0, 1.
+  *
+  * 0,1 로 구성된 Array[Int] A가 주어졌을때
+  *
+  * 다음 규칙으로
+  * 0 은 동쪽으로 1은 서쪽으로 가는 자동차다
+  *
+  * 교차되는 수를 구하라
+  *
+  * example) [0,1,1,0,1,1] => (0,1)(0,2)(0,4)(0,5)(3,4)(3,5) => 6
   */
-object Solution {
+object Solution extends App {
 
   def solution(a: Array[Int]): Int = {
+    val MAX = 1000000000
+    var countOne = a.count(_ == 1)
+    var result = 0L
+    a.foreach {
+      case 0 =>
+        result += countOne
+        if (result > MAX) return -1
+      case 1 =>
+        countOne -= 1
+    }
+    result.toInt
+  }
+
+  def solution2(a: Array[Int]): Int = {
+    var result = 0L
+    var countOne = a.count(_ == 1)
+    val maxResult = 1000000000
+
+    a.iterator.takeWhile(_ => result <= maxResult).foreach { e =>
+      if (e == 0) {
+        result += countOne
+      } else {
+        countOne -= 1
+      }
+    }
+    result.toInt
+  }
+
+  def solution3(a: Array[Int]): Int = {
     var result = 0L
     var countOne = a.count(_ == 1)
 
@@ -67,24 +105,14 @@ object Solution {
     result.toInt
   }
 
-  def solution2(a: Array[Int]): Int = {
-    var result = 0L
-    var countOne = a.count(_ == 1)
-    val maxResult = 1000000000
+  println(solution(Array(0,1,1,0,1,1)))
+  println(solution2(Array(0,1,1,0,1,1)))
+  println(solution3(Array(0,1,1,0,1,1)))
+  
+  println(solution(Array(1,1,0,1,1,0,1,1)))
+  println(solution2(Array(1,1,0,1,1,0,1,1)))
+  println(solution3(Array(1,1,0,1,1,0,1,1)))
 
-    a.iterator.takeWhile(_ => result <= maxResult).foreach { e =>
-      if (e == 0) {
-        result += countOne
-      } else {
-        countOne -= 1
-      }
-    }
-    result.toInt
-  }
-
-  def main(args: Array[String]): Unit = {
-    println(solution2(Array(0,1,1,0,1,1)))
-  }
 }
 
 

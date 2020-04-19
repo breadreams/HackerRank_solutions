@@ -2,9 +2,11 @@ package breadream.codility.l3_TimeComplexity.TapeEquilibrium
 
 /**
   * Tape Equilibrium
+  *
   * Minimize the value | (A[0] + ... + A[P-1]) - (A[P] + ... + A[N-1])|.
   *
   * A non-empty array A consisting of N integers is given. Array A represents numbers on a tape.
+  * N 정수로 구성된 비어 있지 않은 배열 A가 주어진다. 배열 A는 테이프의 숫자를 나타낸다.
   *
   * Any integer P, such that 0 < P < N, splits this tape into two non-empty parts: A[0], A[1], ..., A[P − 1] and A[P], A[P + 1], ..., A[N − 1].
   *
@@ -45,19 +47,23 @@ package breadream.codility.l3_TimeComplexity.TapeEquilibrium
   *
   * N is an integer within the range [2..100,000];
   * each element of array A is an integer within the range [−1,000..1,000].
+  *
+  * P가 Array의 index 일떄
+  * |(A[0] + A[1] + ... + A[P − 1]) − (A[P] + A[P + 1] + ... + A[N − 1])|
+  * 값이 최소인 값을 구하라
   */
-object Solution {
+object Solution extends App {
 
   def solution(a: Array[Int]): Int = {
     if (a.isEmpty) return 0
     val accArr = a.scanLeft(0)((a, b) => a + b).drop(1)
-    val sum = accArr.lastOption.getOrElse(0)
-    accArr.dropRight(1).map(a => math.abs(a - (sum -a))).min
+    val sum = accArr.last
+    accArr.dropRight(1).map {
+      acc => math.abs(acc - (sum - acc))
+    }.min
   }
 
-  def main(args: Array[String]): Unit = {
-//    println(solution(Array(3,1,2,4,3)))
-    //println(solution(Array()))
-    println(solution(Array(-1000, 1000)))
-  }
+  println(solution(Array(3,1,2,4,3)))
+  println(solution(Array()))
+  println(solution(Array(-1000, 1000)))
 }

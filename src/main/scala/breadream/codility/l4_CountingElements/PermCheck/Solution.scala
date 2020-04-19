@@ -50,9 +50,25 @@ package breadream.codility.l4_CountingElements.PermCheck
   * N is an integer within the range [1..100,000];
   * each element of array A is an integer within the range [1..1,000,000,000].
   */
-object Solution {
+object Solution extends App {
 
   def solution(a: Array[Int]): Int = {
+    if (a.isEmpty) return 0
+    val buffer = scala.collection.mutable.SortedSet.empty[Int]
+    var sum = 0L
+    a.iterator.foreach { e =>
+      if (buffer.contains(e)) return 0
+      buffer.add(e)
+      sum += e
+    }
+    if (buffer.size == 1) {
+      if (buffer.head == 1) return 1 else return 0
+    }
+    val (min, max) = (1, buffer.last)
+    if ((min + max) * (max - min + 1) / 2 - sum == 0) 1 else 0
+  }
+
+  def solution2(a: Array[Int]): Int = {
     if (a.isEmpty) return 0
 
     import scala.util.control.Breaks._
@@ -82,17 +98,39 @@ object Solution {
     if (wrongFlag) 0  else 1
   }
 
-  def main(args: Array[String]): Unit = {
-    println(solution(Array(1,2,3,4,5,6,7,8,9,10,10)))
-    println(solution(Array(4,1,3,2))) // 1
-    println(solution(Array(4,1,3))) // 0
-    println(solution(Array(2,3))) // 0
-    println(solution(Array(1))) // 0
-    println(solution(Array(1, 3, 6, 4, 1, 2))) // 0
-    println(solution(Array(1, 2, 3))) // 1
-    println(solution(Array(-1, -3))) // 0
-    println(solution(Array(1))) // 1
-    println(solution(Array())) // 0
-  }
+  println(solution(Array(1,2,3,4,5,6,7,8,9,10,10)))
+  println(solution(Array(4,1,3,2))) // 1
+  println(solution(Array(4,1,3))) // 0
+  println(solution(Array(2,3))) // 0
+  println(solution(Array(1))) // 0
+  println(solution(Array(1, 3, 6, 4, 1, 2))) // 0
+  println(solution(Array(1, 2, 3))) // 1
+  println(solution(Array(-1, -3))) // 0
+  println(solution(Array(1))) // 1
+  println(solution(Array())) // 0
+
+  println
+
+  println(solution2(Array(1,2,3,4,5,6,7,8,9,10,10)))
+  println(solution2(Array(4,1,3,2))) // 1
+  println(solution2(Array(4,1,3))) // 0
+  println(solution2(Array(2,3))) // 0
+  println(solution2(Array(1))) // 0
+  println(solution2(Array(1, 3, 6, 4, 1, 2))) // 0
+  println(solution2(Array(1, 2, 3))) // 1
+  println(solution2(Array(-1, -3))) // 0
+  println(solution2(Array(1))) // 1
+  println(solution2(Array())) // 0
+
+//  0 0
+//  1 1
+//  0 0
+//  0 0
+//  1 1
+//  0 0
+//  1 1
+//  1 0
+//  1 1
+//  0 0
 
 }
